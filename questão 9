@@ -1,0 +1,51 @@
+import java.io.File
+
+// Questão 9 (Nível Avançado): Auditoria de Estoque Crítico (Arquivo + Matriz + continue e break)
+// Carrega estoque_galpao.txt em uma matriz 3x4, pula -1 com continue e interrompe tudo ao achar 0.
+fun main() {
+    val arquivoEstoque = File("estoque_galpao.txt")
+
+    if (!arquivoEstoque.exists()) {
+        println("Arquivo estoque_galpao.txt não encontrado! Crie o arquivo com 3 linhas de valores separados por vírgula.")
+        return
+    }
+
+    val linhas = arquivoEstoque.readLines().map { it.trim() }.filter { it.isNotEmpty() }
+    val numLinhas = 3
+    val numColunas = 4
+
+    // Preenche a matriz 3x4 a partir dos valores separados por vírgula no arquivo
+    val estoque = Array(numLinhas) { IntArray(numColunas) }
+    for (i in 0 until numLinhas) {
+        val valores = linhas[i].split(",")
+        for (j in 0 until numColunas) {
+            estoque[i][j] = valores[j].trim().toInt()
+        }
+    }
+
+    var rupturaEncontrada = false
+
+    // Percorre a grade com laços aninhados para auditar os setores
+    for (i in 0 until numLinhas) {
+        for (j in 0 until numColunas) {
+            val quantidade = estoque[i][j]
+
+            // Corredor bloqueado (-1): ignora este espaço e segue para o próximo
+            if (quantidade == -1) {
+                continue
+            }
+
+            // Ruptura de estoque (0): exibe alerta crítico e encerra o laço interno
+            if (quantidade == 0) {
+                println("ALERTA CRÍTICO: Ruptura de estoque na linha $i, coluna $j!")
+                rupturaEncontrada = true
+                break
+            }
+        }
+
+        // Interrompe imediatamente a auditoria de todo o galpão caso haja ruptura
+        if (rupturaEncontrada) {
+            break
+        }
+    }
+}
