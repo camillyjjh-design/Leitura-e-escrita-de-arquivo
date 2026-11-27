@@ -1,0 +1,31 @@
+import java.io.File
+
+// Questão 6 (Nível Intermediário): Validador de Senhas
+// Lê senhas.txt com forEachLine, ignora senhas com menos de 6 caracteres via continue e salva as válidas.
+fun main() {
+    val arquivoSenhas = File("senhas.txt")
+    val arquivoAprovadas = File("senhas_aprovadas.txt")
+
+    if (!arquivoSenhas.exists()) {
+        println("Arquivo senhas.txt não encontrado! Crie o arquivo com 6 senhas (uma por linha).")
+        return
+    }
+
+    // Inicia/limpa o arquivo de senhas aprovadas
+    arquivoAprovadas.writeText("")
+
+    // Lê uma senha por linha e aplica a validação de tamanho mínimo de 6 caracteres
+    arquivoSenhas.forEachLine { linha ->
+        val senha = linha.trim()
+
+        // Ignora senhas curtas (menos de 6 caracteres) utilizando continue
+        if (senha.length < 6) {
+            continue
+        }
+
+        // Grava a senha válida no arquivo de aprovadas
+        arquivoAprovadas.appendText("$senha\n")
+    }
+
+    println("Validação concluída. Senhas válidas salvas em ${arquivoAprovadas.absolutePath}")
+}
