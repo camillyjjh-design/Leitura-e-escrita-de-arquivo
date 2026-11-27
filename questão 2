@@ -1,0 +1,22 @@
+import java.io.File
+
+// Questão 2 (Nível Iniciante): Registro Contínuo de Logs
+// Grava eventos de um array em sistema.log usando appendText sem apagar registros anteriores.
+fun main() {
+    // Array com os 4 eventos de sistema exigidos pelo enunciado
+    val eventos = arrayOf(
+        "Sistema iniciado",
+        "Usuário logado",
+        "Backup concluído",
+        "Sistema encerrado"
+    )
+
+    val arquivoLog = File("sistema.log")
+
+    // Percorre cada evento e anexa ao final do arquivo com quebra de linha
+    for (evento in eventos) {
+        arquivoLog.appendText("$evento\n")
+    }
+
+    println("Eventos registrados com sucesso em ${arquivoLog.absolutePath}")
+}
