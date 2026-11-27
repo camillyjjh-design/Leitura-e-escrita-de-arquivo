@@ -1,0 +1,27 @@
+import java.io.File
+
+// Questão 7 (Nível Intermediário): Mesclagem de Arquivos
+// Lê turma_a.txt e turma_b.txt, ordena todos os nomes em ordem alfabética e salva em lista_geral.txt.
+fun main() {
+    val turmaA = File("turma_a.txt")
+    val turmaB = File("turma_b.txt")
+    val listaGeral = File("lista_geral.txt")
+
+    if (!turmaA.exists() || !turmaB.exists()) {
+        println("Certifique-se de que turma_a.txt e turma_b.txt existem na raiz do projeto.")
+        return
+    }
+
+    // Junta as linhas dos dois arquivos em uma única lista, removendo linhas vazias e espaços extras
+    val todosAlunos = mutableListOf<String>()
+    todosAlunos.addAll(turmaA.readLines().map { it.trim() }.filter { it.isNotEmpty() })
+    todosAlunos.addAll(turmaB.readLines().map { it.trim() }.filter { it.isNotEmpty() })
+
+    // Ordena os nomes em ordem alfabética (ignorando diferença entre maiúsculas e minúsculas)
+    val alunosOrdenados = todosAlunos.sortedWith(String.CASE_INSENSITIVE_ORDER)
+
+    // Grava a lista final ordenada em lista_geral.txt
+    listaGeral.writeText(alunosOrdenados.joinToString(separator = "\n") + if (alunosOrdenados.isNotEmpty()) "\n" else "")
+
+    println("Lista geral ordenada salva em ${listaGeral.absolutePath}")
+}
