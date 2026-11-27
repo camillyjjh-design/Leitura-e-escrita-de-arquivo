@@ -1,0 +1,29 @@
+import java.io.File
+
+//Exemplo 1: Gerador de Recibo de Pedido (Escrita Dinâmica)
+//Demonstra o uso de writeText para criar/limpar o arquivo e appendText para adicionar linhas em loop.
+fun main() {
+    //Arrays paralelos armazenando os nomes dos itens e seus respectivos valores
+    val itens = arrayOf("Hambúrguer Artesanal", "Batata Rústica", "Suco Natural")
+    val precos = doubleArrayOf(32.00, 15.50, 9.00)
+    var total = 0.0
+
+    //Cria a referência para o arquivo de saída na raiz do projeto
+    val recibo = File("recibo_pedido.txt")
+
+    //writeText cria o arquivo (ou sobrescreve se já existir) iniciando o cabeçalho
+    recibo.writeText("=== RECIBO DO PEDIDO ===\n")
+
+    //Percorre os índices dos itens para anexar cada linha e acumular o valor total
+    for (i in itens.indices) {
+        recibo.appendText("${i + 1}. ${itens[i]} - R$ ${precos[i]}\n")
+        total += precos[i]
+    }
+
+    //Adiciona o fechamento e o valor total ao final do arquivo sem apagar os itens anteriores
+    recibo.appendText("------------------------\n")
+    recibo.appendText("TOTAL A PAGAR: R$ $total\n")
+
+    //Exibe o caminho absoluto onde o arquivo foi salvo no disco
+    println("Recibo gerado em: ${recibo.absolutePath}")
+}
