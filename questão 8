@@ -1,0 +1,35 @@
+import java.io.File
+
+// Questão 8 (Nível Avançado): Boletim Escolar Persistente (Matriz -> Arquivo)
+// Calcula a média de 3 notas para 4 alunos e grava o relatório final em boletim_final.txt.
+fun main() {
+    // Array paralelo com os nomes dos 4 alunos
+    val alunos = arrayOf("Ana", "Bruno", "Carla", "Diego")
+
+    // Matriz 4x3 representando 3 notas para cada um dos 4 alunos
+    val notas = Array(4) { DoubleArray(3) }
+    notas[0] = doubleArrayOf(8.0, 7.5, 9.0)
+    notas[1] = doubleArrayOf(5.0, 6.0, 5.5)
+    notas[2] = doubleArrayOf(9.5, 8.5, 10.0)
+    notas[3] = doubleArrayOf(6.0, 6.5, 7.0)
+
+    val boletim = File("boletim_final.txt")
+    boletim.writeText("") // Limpa ou cria o arquivo de relatório
+
+    // Calcula média e situação (critério padrão >= 7.0 para Aprovado) de cada aluno
+    for (i in alunos.indices) {
+        var soma = 0.0
+        for (j in notas[i].indices) {
+            soma += notas[i][j]
+        }
+
+        val media = soma / notas[i].size
+        val situacao = if (media >= 7.0) "Aprovado" else "Reprovado"
+        val mediaFormatada = "%.1f".format(media)
+
+        // Grava exatamente no formato especificado na apostila
+        boletim.appendText("Aluno: [${alunos[i]}] | Média: [$mediaFormatada] | Situação: [$situacao]\n")
+    }
+
+    println("Boletim salvo em ${boletim.absolutePath}")
+}
