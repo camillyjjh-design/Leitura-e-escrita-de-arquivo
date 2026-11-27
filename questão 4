@@ -1,0 +1,27 @@
+import java.io.File
+
+// Questão 4 (Nível Intermediário): Filtro de Números Pares
+// Gera numeros.txt de 1 a 50, lê o arquivo e grava apenas os pares em pares.txt.
+fun main() {
+    val arquivoNumeros = File("numeros.txt")
+    val arquivoPares = File("pares.txt")
+
+    // Limpa/inicia numeros.txt e escreve os números de 1 a 50 (um por linha)
+    arquivoNumeros.writeText("")
+    for (numero in 1..50) {
+        arquivoNumeros.appendText("$numero\n")
+    }
+
+    // Limpa/inicia pares.txt antes de gravar os números pares filtrados
+    arquivoPares.writeText("")
+
+    // Lê numeros.txt linha a linha, converte para Int e filtra os números pares
+    arquivoNumeros.forEachLine { linha ->
+        val numero = linha.trim().toIntOrNull()
+        if (numero != null && numero % 2 == 0) {
+            arquivoPares.appendText("$numero\n")
+        }
+    }
+
+    println("Números pares salvos em ${arquivoPares.absolutePath}")
+}
