@@ -1,0 +1,46 @@
+import java.io.File
+
+// Questão 5 (Nível Intermediário): Processador de Folha de Pagamento (CSV)
+// Lê funcionarios.txt (Nome;Salario), calcula a média salarial e exibe quem ganha acima da média.
+fun main() {
+    val arquivoFuncionarios = File("funcionarios.txt")
+
+    if (!arquivoFuncionarios.exists()) {
+        println("Arquivo funcionarios.txt não encontrado! Crie o arquivo no formato Nome;Salario.")
+        return
+    }
+
+    // Estrutura auxiliar para guardar cada par (nome, salário) lido do arquivo
+    val nomes = mutableListOf<String>()
+    val salarios = mutableListOf<Double>()
+
+    // Lê cada linha separando nome e salário pelo caractere ';'
+    arquivoFuncionarios.forEachLine { linha ->
+        if (linha.isNotBlank()) {
+            val partes = linha.split(";")
+            if (partes.size >= 2) {
+                val nome = partes[0].trim()
+                val salario = partes[1].trim().toDouble()
+                nomes.add(nome)
+                salarios.add(salario)
+            }
+        }
+    }
+
+    if (salarios.isEmpty()) {
+        println("Nenhum registro válido encontrado em funcionarios.txt.")
+        return
+    }
+
+    // Calcula a média salarial da empresa
+    val mediaSalarial = salarios.average()
+    println("Média salarial: R$ ${"%.2f".format(mediaSalarial)}")
+    println("=== Funcionários acima da média ===")
+
+    // Exibe apenas os funcionários cujo salário supera a média calculada
+    for (i in nomes.indices) {
+        if (salarios[i] > mediaSalarial) {
+            println(nomes[i])
+        }
+    }
+}
