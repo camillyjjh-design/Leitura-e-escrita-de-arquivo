@@ -1,0 +1,25 @@
+import java.io.File
+
+// Questão 3 (Nível Iniciante): Contador de Linhas e Caracteres
+// Verifica se poema.txt existe e imprime o total de linhas e de caracteres do texto.
+fun main() {
+    val arquivoPoema = File("poema.txt")
+
+    // Valida a existência do arquivo antes de ler para evitar FileNotFoundException
+    if (arquivoPoema.exists()) {
+        // Lê todas as linhas em uma lista para contar quantas linhas o arquivo possui
+        val linhas = arquivoPoema.readLines()
+        val totalLinhas = linhas.size
+
+        // Soma o comprimento de cada linha para obter o total de caracteres do texto
+        var totalCaracteres = 0
+        for (linha in linhas) {
+            totalCaracteres += linha.length
+        }
+
+        println("Total de linhas: $totalLinhas")
+        println("Total de caracteres: $totalCaracteres")
+    } else {
+        println("Arquivo poema.txt não encontrado! Crie o arquivo com pelo menos 5 linhas antes de executar.")
+    }
+}
