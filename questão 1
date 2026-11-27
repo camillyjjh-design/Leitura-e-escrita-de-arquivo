@@ -1,0 +1,17 @@
+import java.io.File
+
+// Questão 1 (Nível Iniciante): Diário Digital Simples
+// Lê uma frase do usuário via readln(), grava em diario.txt e exibe o conteúdo salvo.
+fun main() {
+    // Solicita uma frase sobre o dia do usuário pelo teclado
+    print("Escreva uma frase sobre o seu dia: ")
+    val frase = readln()
+
+    // Cria a referência do arquivo na raiz do projeto e grava a frase
+    val arquivoDiario = File("diario.txt")
+    arquivoDiario.writeText(frase)
+
+    // Lê e exibe o conteúdo gravado para confirmar a persistência no disco
+    println("\n=== Conteúdo salvo em diario.txt ===")
+    println(arquivoDiario.readText())
+}
