@@ -1,0 +1,50 @@
+import java.io.File
+
+// Representa cada entrada do ranking com nome do jogador e pontuação
+data class JogadorRanking(val nome: String, val pontos: Int)
+
+// Questão 10 (Nível Avançado): Sistema de Ranking de Jogo (Leitura, Ordenação e Atualização)
+// Lê ranking.txt, adiciona novo jogador via teclado, ordena decrescente e mantém o Top 5.
+fun main() {
+    val arquivoRanking = File("ranking.txt")
+    val rankingAtual = mutableListOf<JogadorRanking>()
+
+    // Carrega os registros existentes do arquivo ranking.txt, se ele já existir
+    if (arquivoRanking.exists()) {
+        arquivoRanking.forEachLine { linha ->
+            if (linha.isNotBlank()) {
+                val partes = linha.split(";")
+                if (partes.size >= 2) {
+                    val nome = partes[0].trim()
+                    val pontos = partes[1].trim().toInt()
+                    rankingAtual.add(JogadorRanking(nome, pontos))
+                }
+            }
+        }
+    }
+
+    // Solicita o nome e a pontuação do novo jogador via teclado
+    print("Digite o nome do novo jogador: ")
+    val novoNome = readln().trim()
+
+    print("Digite a pontuação de $novoNome: ")
+    val novosPontos = readln().trim().toInt()
+
+    // Adiciona o novo jogador à lista em memória
+    rankingAtual.add(JogadorRanking(novoNome, novosPontos))
+
+    // Reordena da maior para a menor pontuação e mantém apenas os 5 primeiros (Top 5)
+    val top5 = rankingAtual
+        .sortedByDescending { it.pontos }
+        .take(5)
+
+    // Sobrescreve ranking.txt com o Top 5 atualizado
+    val conteudoAtualizado = top5.joinToString(separator = "\n") { "${it.nome}; ${it.pontos}" } +
+        if (top5.isNotEmpty()) "\n" else ""
+    arquivoRanking.writeText(conteudoAtualizado)
+
+    println("\n=== TOP 5 ATUALIZADO (ranking.txt) ===")
+    top5.forEachIndexed { indice, jogador ->
+        println("${indice + 1}º - ${jogador.nome}: ${jogador.pontos} pts")
+    }
+}
