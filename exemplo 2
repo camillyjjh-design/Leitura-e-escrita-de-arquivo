@@ -1,0 +1,30 @@
+import java.io.File
+
+//Exemplo 2: Leitura de Catálogo e Filtro de Preços (Leitura Estruturada)
+//Demonstra escrita de dados estruturados, leitura linha a linha com forEachLine, split e conversão de tipo.
+fun main() {
+    val arquivoProdutos = File("produtos.txt")
+
+    //Grava o catálogo inicial com campos separados por ponto e vírgula (;)
+    arquivoProdutos.writeText(
+        "Mouse Gamer; 120.0\n" +
+            "Monitor 24pol; 890.0\n" +
+            "Mousepad Extra; 45.5\n" +
+            "Teclado Mecânico; 310.0"
+    )
+
+    println("=== PRODUTOS EM PROMOÇÃO (ATÉ R$ 200) ===")
+
+    //Lê o arquivo linha a linha sem carregar tudo de uma vez na memória
+    arquivoProdutos.forEachLine { linha ->
+        //Divide a linha em uma lista usando ';' como separador: [nome, precoEmTexto]
+        val dados = linha.split(";")
+        val nome = dados[0].trim()
+        val preco = dados[1].trim().toDouble() // Converte o preço de String para Double
+
+        //Filtra apenas os produtos com valor até 200.0
+        if (preco <= 200.0) {
+            println("Produto: $nome | Preço: R$ $preco")
+        }
+    }
+}
